@@ -50,8 +50,8 @@ class BBCParser(BaseNewsFeedParser):
 
         return articles
 
-    @staticmethod
-    def get_bbc(self):
+
+    def get_articles(self):
         parser = BBCParser()
         try:
             articles = parser.parse_feed()

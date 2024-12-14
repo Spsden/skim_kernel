@@ -30,19 +30,21 @@ class BaseNewsFeedParser(ABC):
             response = requests.get(
                 self.feed_url,
                 timeout=10,
-                headers={
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Accept-Language': 'en-US,en;q=0.9',
-                    'Connection': 'keep-alive',
-                    'Upgrade-Insecure-Requests': '1',
-                    'TE': 'Trailers'
-                }
+
+                ##TODO : FIND SUITABLE HEADERS. FIREFOX HEADERS BREAK TOI
+                # headers={
+                #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0',
+                #     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                #     'Accept-Encoding': 'gzip, deflate, br',
+                #     'Accept-Language': 'en-US,en;q=0.9',
+                #     'Connection': 'keep-alive',
+                #     'Upgrade-Insecure-Requests': '1',
+                #     'TE': 'Trailers'
+                # }
 
             )
             response.raise_for_status()
-
+            self.logger.info(f"Response received from : {self.source_name}  {self.feed_url}")
             try:
                 root = et.fromstring(response.content)
             except et.ParseError as xml_err:
@@ -128,4 +130,8 @@ class BaseNewsFeedParser(ABC):
 
     @abstractmethod
     def extract_image_url(self, item) -> Optional[str]:
+        pass
+
+    @abstractmethod
+    def get_articles(self):
         pass

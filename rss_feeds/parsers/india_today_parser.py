@@ -38,8 +38,7 @@ class IndiaTodayRSSParser(BaseNewsFeedParser):
 
         return articles
 
-    @staticmethod
-    def get_india_today(self):
+    def get_articles(self):
         parser = IndiaTodayRSSParser()
         try:
             articles = parser.parse_feed()
@@ -47,7 +46,6 @@ class IndiaTodayRSSParser(BaseNewsFeedParser):
 
         except Exception as e:
             self.logger.error(f"Error at India today: {e}")
-            print(f"from inda_today : {e}")
 
     def extract_image_url(self, item,source:Optional[str]) -> Optional[str]:
         clean_desc = re.search(r'<img[^>]+src="([^"]+)"', item)

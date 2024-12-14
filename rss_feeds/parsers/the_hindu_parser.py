@@ -90,44 +90,40 @@ class TheHinduParser(BaseNewsFeedParser):
             })
         return image_info['url']
 
-    def get_the_hindu(self):
+    def get_articles(self):
         parser = TheHinduParser()
         try:
             articles = parser.parse_feed()
             return articles
         except Exception as e:
-            self.logger.error(f"Error processing The Hindu feed: {e}")
-            print(f"Error: {e}")
+            self.logger.error(f"Error at The Hindu feed: {e}")
             return []
 
 
-# def main():
-#     logging.basicConfig(
-#         level=logging.INFO,
-#         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-#     )
-#
-#     parser = TheHinduParser()
-#
-#     try:
-#         # Parse the feed
-#         articles = parser.parse_feed()
-#
-#         # Print parsed articles
-#         print(f"Total articles parsed: {len(articles)}")
-#         for idx, article in enumerate(articles, 1):
-#             print(f"\nArticle {idx}:")
-#             print(f"Title: {article['title']}")
-#             print(f"Link: {article['link']}")
-#             print(f"Published: {article['pub_date']}")
-#             print(f"Image URL: {article.get('image_url', 'No image')}")
-#             print(f"Categories: {', '.join(article.get('categories', []))}")
-#             print(f"Article ID: {article.get('article_id', 'N/A')}")
-#             print(f"Description: {article['description'][:200]}...")
-#
-#     except Exception as e:
-#         print(f"Error processing feed: {e}")
-#
-#
-# if __name__ == "__main__":
-#     main()
+def main():
+
+
+    parser = TheHinduParser()
+
+    try:
+        # Parse the feed
+        articles = parser.parse_feed()
+
+        # Print parsed articles
+        print(f"Total articles parsed: {len(articles)}")
+        for idx, article in enumerate(articles, 1):
+            print(f"\nArticle {idx}:")
+            print(f"Title: {article['title']}")
+            print(f"Link: {article['link']}")
+            print(f"Published: {article['pub_date']}")
+            print(f"Image URL: {article.get('image_url', 'No image')}")
+            print(f"Categories: {', '.join(article.get('categories', []))}")
+            print(f"Article ID: {article.get('article_id', 'N/A')}")
+            print(f"Description: {article['description'][:200]}...")
+
+    except Exception as e:
+        print(f"Error processing feed: {e}")
+
+
+if __name__ == "__main__":
+    main()

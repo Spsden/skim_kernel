@@ -2,6 +2,10 @@ from typing import List, Dict, Any
 import logging
 
 from rss_feeds.core.base_parser import BaseNewsFeedParser
+from rss_feeds.parsers.bbc_parser import BBCParser
+from rss_feeds.parsers.india_today_parser import IndiaTodayRSSParser
+from rss_feeds.parsers.the_hindu_parser import TheHinduParser
+from rss_feeds.parsers.toi_parser import TimesOfIndiaParser
 
 
 class FeedAggregator:
@@ -25,3 +29,24 @@ class FeedAggregator:
     def print_aggregated_articles(self, articles: List[Dict[str, Any]]):
         for article in articles:
             print(f"{article['title']} - {article['source']} - {article['pub_date']}")
+
+
+
+def main():
+    logging.basicConfig(level=logging.INFO)
+
+    parsers = [
+        TheHinduParser(),
+        TimesOfIndiaParser(),
+        IndiaTodayRSSParser(),
+        BBCParser(),
+    ]
+
+    aggregator = FeedAggregator(parsers)
+
+    aggregated_articles = aggregator.aggregate_feeds()
+
+    aggregator.print_aggregated_articles(aggregated_articles)
+
+if __name__ == "__main__":
+    main()
