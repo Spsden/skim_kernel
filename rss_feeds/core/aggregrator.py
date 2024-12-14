@@ -46,6 +46,7 @@ def main():
 
     aggregated_articles = aggregator.aggregate_feeds()
 
+    print(f"Number of articles fetched {len(aggregated_articles)}")
     aggregator.print_aggregated_articles(aggregated_articles)
 
 if __name__ == "__main__":

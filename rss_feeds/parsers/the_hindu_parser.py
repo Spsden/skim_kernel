@@ -106,10 +106,8 @@ def main():
     parser = TheHinduParser()
 
     try:
-        # Parse the feed
         articles = parser.parse_feed()
 
-        # Print parsed articles
         print(f"Total articles parsed: {len(articles)}")
         for idx, article in enumerate(articles, 1):
             print(f"\nArticle {idx}:")

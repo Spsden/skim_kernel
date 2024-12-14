@@ -12,7 +12,7 @@ class TimesOfIndiaParser(BaseNewsFeedParser):
             feed_url= TIMES_OF_INDIA_HOME + TOI_TOP_STORIES,
             source_name="Times of India"
         )
-        self.config['max_description_length'] = 800  # Shorter descriptions
+        self.config['max_description_length'] = 800
         self.config['extract_images'] = True
 
     def _parse_specific_feed(self, root: et.Element) -> List[Dict[str, Any]]:
@@ -64,10 +64,8 @@ def main():
     parser = TimesOfIndiaParser()
 
     try:
-        # Parse the feed
         articles = parser.parse_feed()
 
-        # Print parsed articles
         print(f"Total articles parsed: {len(articles)}")
         for idx, article in enumerate(articles, 1):
             print(f"\nArticle {idx}:")

@@ -74,7 +74,6 @@ class BaseNewsFeedParser(ABC):
             if article.get('description') and len(article['description']) > self.config['max_description_length']:
                 article['description'] = article['description'][:self.config['max_description_length']] + '...'
 
-            # Validate URLs if configured
             if self.config['validate_urls']:
                 if not self._validate_url(article.get('link', '')):
                     self.logger.warning(f"Invalid article URL: {article.get('link')}")
@@ -111,7 +110,7 @@ class BaseNewsFeedParser(ABC):
             return None
 
         default_formats = [
-            '%a, %d %b %Y %H:%M:%S %z',  # RSS standard
+            '%a, %d %b %Y %H:%M:%S %z',
             '%Y-%m-%d %H:%M:%S %z',
             '%Y-%m-%dT%H:%M:%S%z'
         ]
