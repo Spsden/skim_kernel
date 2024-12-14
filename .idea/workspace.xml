@@ -7,11 +7,6 @@
     <list default="true" id="a9ccff69-dbd0-420c-9c43-675e3e5c0449" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rss_feeds/core/aggregrator.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/core/aggregrator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/core/base_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/core/base_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/parsers/bbc_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/parsers/bbc_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/parsers/india_today_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/parsers/india_today_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/parsers/the_hindu_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/parsers/the_hindu_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/parsers/toi_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/parsers/toi_parser.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

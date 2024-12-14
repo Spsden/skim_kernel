@@ -18,7 +18,7 @@ class FeedAggregator:
         for parser in self.parsers:
             try:
                 self.logger.info(f"Parsing feed from {parser.source_name}")
-                articles = parser.parse_feed()
+                articles = parser.get_articles()
                 aggregated_articles.extend(articles)
                 self.logger.info(f"Successfully parsed {len(articles)} articles from {parser.source_name}")
             except Exception as e:

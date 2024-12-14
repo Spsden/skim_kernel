@@ -17,7 +17,6 @@ class TimesOfIndiaParser(BaseNewsFeedParser):
 
     def _parse_specific_feed(self, root: et.Element) -> List[Dict[str, Any]]:
         articles = []
-        print(root.findall('.//item'))
 
         for item in root.findall('.//item'):
             try:
