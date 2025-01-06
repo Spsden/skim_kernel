@@ -28,7 +28,7 @@ class FeedAggregator:
 
     def print_aggregated_articles(self, articles: List[Dict[str, Any]]):
         for article in articles:
-            print(f"{article['title']} - {article['source']} - {article['pub_date']}")
+            print(article)
 
 
 

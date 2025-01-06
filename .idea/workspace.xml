@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9ccff69-dbd0-420c-9c43-675e3e5c0449" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/article_extractors/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/article_extractors/config/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/article_extractors/core/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/article_extractors/utils/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rss_feeds/core/aggregrator.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/core/aggregrator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/core/base_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/core/base_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/parsers/the_hindu_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/parsers/the_hindu_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/parsers/toi_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/parsers/toi_parser.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,23 +36,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.aggregrator.executor": "Run",
-    "Python.bbc_parser.executor": "Run",
-    "Python.bbc_rss.executor": "Run",
-    "Python.india_today.executor": "Run",
-    "Python.india_today_parser.executor": "Run",
-    "Python.the_hindu_parser.executor": "Run",
-    "Python.the_hindu_rss.executor": "Run",
-    "Python.toi_parser.executor": "Run",
-    "Python.toi_rss.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.aggregrator.executor&quot;: &quot;Run&quot;,
+    &quot;Python.bbc_parser.executor&quot;: &quot;Run&quot;,
+    &quot;Python.bbc_rss.executor&quot;: &quot;Run&quot;,
+    &quot;Python.india_today.executor&quot;: &quot;Run&quot;,
+    &quot;Python.india_today_parser.executor&quot;: &quot;Run&quot;,
+    &quot;Python.the_hindu_parser.executor&quot;: &quot;Run&quot;,
+    &quot;Python.the_hindu_rss.executor&quot;: &quot;Run&quot;,
+    &quot;Python.toi_parser.executor&quot;: &quot;Run&quot;,
+    &quot;Python.toi_rss.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Python.aggregrator">
     <configuration name="aggregrator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="skim_kernel" />
