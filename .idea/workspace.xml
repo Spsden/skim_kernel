@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9ccff69-dbd0-420c-9c43-675e3e5c0449" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/article_extractors/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/article_extractors/config/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/article_extractors/core/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/article_extractors/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/article_extractors/core/base_extractor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cruncher_queue/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/core/aggregrator.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/core/aggregrator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
