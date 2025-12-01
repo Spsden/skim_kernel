@@ -49,5 +49,5 @@ def main():
     print(f"Number of articles fetched {len(aggregated_articles)}")
     aggregator.print_aggregated_articles(aggregated_articles)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
