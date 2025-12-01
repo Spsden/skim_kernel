@@ -1,2 +1,2 @@
-alembic revision --autogenerate -m "Create a baseline migrations"
+alembic revision --autogenerate -m "temp change datetime to string in pub time"
 alembic upgrade head

@@ -23,7 +23,7 @@ class RawArticles(Base):
 
     processed = Column(Boolean, default=False)
 
-    published_date = Column(DateTime, nullable=False)
+    published_date = Column(String, nullable=False)
 
     createdAt = Column(DateTime, nullable=False, insert_default=func.now())
 
