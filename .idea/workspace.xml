@@ -5,17 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9ccff69-dbd0-420c-9c43-675e3e5c0449" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/containers/docker-compose-db.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/connection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/skim_kernel.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/skim_kernel.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/schema.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/database/table_names.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/table_names.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rss_feeds/core/aggregrator.py" beforeDir="false" afterPath="$PROJECT_DIR$/rss_feeds/core/aggregrator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,7 +210,7 @@
       <option name="presentableId" value="Default" />
       <updated>1731952556320</updated>
       <workItem from="1764574967399" duration="3022000" />
-      <workItem from="1764578026802" duration="4921000" />
+      <workItem from="1764578026802" duration="5129000" />
     </task>
     <servers />
   </component>

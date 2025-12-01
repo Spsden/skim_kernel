@@ -36,10 +36,10 @@ def main():
     logging.basicConfig(level=logging.INFO)
 
     parsers = [
-        TheHinduParser(),
+        # TheHinduParser(),
         TimesOfIndiaParser(),
-        IndiaTodayRSSParser(),
-        BBCParser(),
+        # IndiaTodayRSSParser(),
+        # BBCParser(),
     ]
 
     aggregator = FeedAggregator(parsers)
