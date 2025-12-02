@@ -36,6 +36,7 @@ class FeedAggregator:
 
     def print_aggregated_articles(self, articles: List[Dict[str, Any]]):
         for article in articles:
+            print("-" * 100)
             print(article)
 
     def push_to_database(self, articles: List[Dict[str, Any]]):
@@ -66,7 +67,6 @@ class FeedAggregator:
         
         # inserting into database 
         try:
-            print("xyz")
             database_engine = DBConnection.get_engine()
 
             RawArticleRepository.insert(database_engine, parsed_articles)
@@ -98,8 +98,10 @@ def get_articles_and_push_to_database():
 
     aggregated_articles = aggregator.aggregate_feeds()
 
-    print(f"Number of articles fetched {len(aggregated_articles)}")
-    # aggregator.print_aggregated_articles(aggregated_articles)
-    aggregator.push_to_database(aggregated_articles)
-# if __name__ == "__main__":
-#     main()
+
+
+    # print(f"Number of articles fetched {len(aggregated_articles)}")
+    aggregator.print_aggregated_articles(aggregated_articles)
+    # aggregator.push_to_database(aggregated_articles)
+
+

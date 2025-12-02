@@ -14,7 +14,7 @@ def get_env(key: str) -> str:
     env = os.getenv(key)
 
     if not env:
-        logging.error(f"Environment variable not found {key}")
+        logging.error(f"Environment variable not found: {key}")
         exit(1)
 
     return env
