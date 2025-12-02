@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 import requests
 # from scraper.pre_processing.base_pre_processing import BasePreProcessing
 import re
+from urllib.parse import urlparse, urlunparse
 
 class BasePreProcessing:
 
@@ -39,6 +40,58 @@ class TOIPreprocessing(BasePreProcessing):
 
     def __init__(self, raw_url: str) -> None:
         super().__init__(raw_url)
+
+
+    def normal_url_to_processed(self) -> str:
+        """
+        convert 'articleshow/' to 'articleshowprint/'.
+        """
+        parsed = urlparse(self.raw_url)
+
+        path_parts = parsed.path.split('/')
+
+
+        new_parts = []
+        replaced = False
+        for part in path_parts:
+            if part == 'articleshow':
+                new_parts.append('articleshowprint')
+                replaced = True
+            else:
+                new_parts.append(part)
+        if replaced:
+            new_path = '/'.join(new_parts)
+            new_parsed = parsed._replace(path=new_path)
+            return urlunparse(new_parsed)
+        else:
+            return url
+
+
+    def extract_body_print(self):
+
+        try:
+            # print article url for body extraction
+            modified_url =  self.normal_url_to_processed()
+
+            resp = requests.get(modified_url, headers={"User-Agent": "Mozilla/5.0"})
+
+            resp.raise_for_status()
+            soup = BeautifulSoup(resp.text, "html.parser")
+
+            paragraphs = soup.find_all("div", {"class": "Normal"})
+            body = []
+
+            for p in paragraphs:
+                text = p.get_text(strip=True)
+                if text:
+                    body.append(text)
+
+            return "\n\n".join(body) if body else None
+        except Exception as e:
+            self.logger.error(f"Failed to extract body {str(e)}")
+
+
+
 
     def normalize_date(self, raw_date: str):
        
@@ -151,7 +204,7 @@ class TOIPreprocessing(BasePreProcessing):
                     pass
 
             
-            # body = self.extract_body_print(soup)
+            body = self.extract_body_print()
 
             authors = list(dict.fromkeys(authors))
 
@@ -164,6 +217,8 @@ class TOIPreprocessing(BasePreProcessing):
                 "authors": authors or None,
 
                 "published_date": published_date or None,
+
+                "body": body or None
 
             }
 
