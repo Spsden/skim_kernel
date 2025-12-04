@@ -1,0 +1,12 @@
+.SILENT:
+
+# to  generate migrations
+#  param MGname for 
+gen-db-migration:
+	echo "hello $(NAME)!"
+	echo "hello"
+
+# to apply migrations 
+apply-db:
+	echo "hello"
+
