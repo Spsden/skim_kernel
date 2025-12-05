@@ -31,8 +31,8 @@ class ModelHandler:
             ]
 
             tex = "hello how are you"
-            # model_name = "google-t5/t5-base"
-            model_name = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+            model_name = "google-t5/t5-base"
+            # model_name = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
             tokenizer = AutoTokenizer.from_pretrained(model_name)
             pipeline1 = pipeline(task="text-generation", model=model_name, dtype="auto", device_map="auto")
             response = pipeline(tex, max_new_tokens=512)
