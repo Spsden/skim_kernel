@@ -1,0 +1,17 @@
+# .SILENT:
+
+# to  generate migrations
+#  param MGname for 
+gen-db-migration:
+	alembic revision --autogenerate -m "$(NAME)"
+	
+
+# to apply migrations 
+apply-db:
+	alembic upgrade head
+	
+
+# to generate requirements 
+gen-req:
+	uv pip freeze > requirements.txt
+
