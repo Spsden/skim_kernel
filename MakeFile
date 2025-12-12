@@ -15,3 +15,7 @@ apply-db:
 gen-req:
 	uv pip freeze > requirements.txt
 
+
+create_venv:
+	uv venv
+	

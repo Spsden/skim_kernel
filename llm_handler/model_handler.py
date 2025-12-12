@@ -3,8 +3,8 @@
 import logging
 import torch
 from typing import List, Optional
-from transformers import TorchAoConfig, AutoModelForSeq2SeqLM, AutoTokenizer, AutoModelForSequenceClassification
-from transformers import pipeline, T5Model
+from transformers import AutoTokenizer
+from transformers import pipeline
 from transformers import T5Tokenizer, T5ForConditionalGeneration, AutoModelForCausalLM, pipeline
 
 from config.constants import model_config, prompts
@@ -51,14 +51,14 @@ class ModelHandler:
         Returns:
             Optional[List[str]]: chunked article in lst form
         """
-        summaries = []
+        summaries: List[str] = []
 
         try:
             for chunk in self.chunk_text(articles):
 
                 prompt = f"{self.chunk_prompt}\n{chunk}"
                 output = self.pipe(prompt, do_sample=False, min_length=150, max_length=250)
-                summaries.append(output[0]['summary_text'])
+                summaries.append(output[0]['summary_text']) # type: ignore
 
             return summaries
 
@@ -86,7 +86,7 @@ class ModelHandler:
                 # chunk article
                 chunked_articles = self.chunk_articles(article)
 
-                processsed_article = " ".join(chunked_articles)
+                processsed_article = "".join(chunked_articles) # type: ignore
 
             else:
                 processsed_article = article
@@ -96,7 +96,7 @@ class ModelHandler:
             # summarize article
             summarized_article = self.pipe(prompt, min_length=70, do_sample=False)
 
-            return summarized_article[0]['summary_text']
+            return summarized_article[0]['summary_text'] # type: ignore
             
         except Exception as e:
             self.logger.error(f"Summarization failed: {str(e)}")
