@@ -3,6 +3,8 @@ import logging
 import pika
 
 from config.env import get_env
+import json
+from typing import Callable, Dict, Any
 
 class QueueHandler:
     
@@ -19,6 +21,8 @@ class QueueHandler:
             port=get_env("MSG_QUEUE_PORT"),
             credentials=queue_credentails,
         )
+
+        self.encode_type = "utf-8"
         
         try:
             self.connection = pika.BlockingConnection(connection_params)
@@ -29,12 +33,14 @@ class QueueHandler:
         except Exception as e:
             self.logger.error(f"Queue init failed: {str(e)}")
             raise e
-
+        
+    def encode(self, msg: Dict[str, Any]) -> bytes:
+        """to encode json / dict in sendable format"""
+        return json.dumps(msg).encode(self.encode_type)
     
-    def publisher(self, channel_name: str):
+    def publisher(self, channel_name: str, data: dict[str, Any]):
         try:
             # check for instance first
-
             if self.channel is None:
                 self.logger.warning("Msg queue is not initialized")
                 raise Exception("Msg queue is not initialized")
@@ -42,10 +48,13 @@ class QueueHandler:
             # connect with correct channel
             self.channel.queue_declare(channel_name, durable=True)
 
+            # to encode data
+            encoded_data = self.encode(data)
+
             self.channel.basic_publish(
                 exchange='',
                 routing_key=channel_name, 
-                body='Hello World! 11111',
+                body=encoded_data,
                 properties=pika.BasicProperties(
                     delivery_mode = pika.DeliveryMode.Persistent
                 )
@@ -55,17 +64,18 @@ class QueueHandler:
                 f"Message sent to exchange for channel name: {channel_name}"
             )
 
-            self.connection.close()
-
 
         except Exception as e:
             self.logger.error(f"Error publishing {str(e)}")
 
     
-    def consume(self, channel_name: str):
+    def consume(self, channel_name: str, call_back: Callable):
         try:
             def callback(ch, method, properties, body):
-                print(f" [x] Received {body}")
+                # print(f"channel is {ch}")
+                # print(f"method is {method}")
+                # print(f" [x] Received {body}")
+                call_back(body)
 
             self.channel.basic_consume(queue=channel_name, on_message_callback=callback)
 
@@ -75,11 +85,15 @@ class QueueHandler:
         except Exception as e:
             self.logger.error(f"Error consuming {str(e)}")
 
+    def close_queue(self):
+        self.connection.close()
+
+
 
 if __name__ == "__main__":
     print("Queue in action")
 
     queue = QueueHandler()
 
-    queue.publisher("hello_queue")
+    # queue.publisher("hello_queue", {"name": "bhanu"})
     

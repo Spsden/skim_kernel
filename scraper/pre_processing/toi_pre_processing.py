@@ -130,7 +130,7 @@ class TOIPreprocessing(BasePreProcessing):
             soup = BeautifulSoup(resp.text, "html.parser")
 
             # title handler 
-            title: str = None
+            title: str
 
             if soup.find("h1"):
                 title = soup.find("h1").get_text(strip=True)
@@ -214,7 +214,9 @@ class TOIPreprocessing(BasePreProcessing):
 
                 "description": description or None,
 
-                "authors": authors or None,
+                # "authors": authors or None,
+                "authors": None,
+
 
                 "published_date": published_date or None,
 
