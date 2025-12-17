@@ -26,6 +26,8 @@ async def main(service: str):
     if service == service_names["rss_service"]:
       # logic to run rss_service
       logger.info(f"Service {service} started")
+      from rss_feeds.main import main
+      asyncio.run(main())
     
     # scraping service exec
     elif service == service_names["scraping_service"]:
@@ -56,6 +58,7 @@ async def main(service: str):
   
 
 if __name__ == '__main__':
+  logging.basicConfig(level=logging.INFO)
 
   args = sys.argv[1]
   print(f"Provided args {args}")

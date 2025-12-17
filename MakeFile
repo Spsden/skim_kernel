@@ -18,4 +18,9 @@ gen-req:
 
 create_venv:
 	uv venv
+
+
+run_rss:
+	uv run ./main.py kalinga
+
 	

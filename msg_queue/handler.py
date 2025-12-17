@@ -8,8 +8,10 @@ from typing import Callable, Dict, Any
 
 class QueueHandler:
     
-    def __init__(self) -> None:
+    def __init__(self, channel_name: str) -> None:
         self.logger = logging.getLogger("MsgQueue")
+
+        self.channel_name = channel_name
 
         queue_credentails = pika.PlainCredentials(
             username=get_env("MSG_QUEUE_USERNAME"), 
@@ -38,7 +40,7 @@ class QueueHandler:
         """to encode json / dict in sendable format"""
         return json.dumps(msg).encode(self.encode_type)
     
-    def publisher(self, channel_name: str, data: dict[str, Any]):
+    def publisher(self, data: dict[str, Any]):
         try:
             # check for instance first
             if self.channel is None:
@@ -46,14 +48,14 @@ class QueueHandler:
                 raise Exception("Msg queue is not initialized")
             
             # connect with correct channel
-            self.channel.queue_declare(channel_name, durable=True)
+            self.channel.queue_declare(self.channel_name, durable=True)
 
             # to encode data
             encoded_data = self.encode(data)
 
             self.channel.basic_publish(
                 exchange='',
-                routing_key=channel_name, 
+                routing_key=self.channel_name, 
                 body=encoded_data,
                 properties=pika.BasicProperties(
                     delivery_mode = pika.DeliveryMode.Persistent
@@ -61,7 +63,7 @@ class QueueHandler:
             )
             
             self.logger.info(
-                f"Message sent to exchange for channel name: {channel_name}"
+                f"Message sent to exchange for channel name: {self.channel_name}"
             )
 
 
@@ -69,7 +71,7 @@ class QueueHandler:
             self.logger.error(f"Error publishing {str(e)}")
 
     
-    def consume(self, channel_name: str, call_back: Callable):
+    def consume(self, call_back: Callable):
         try:
             def callback(ch, method, properties, body):
                 # print(f"channel is {ch}")
@@ -77,7 +79,7 @@ class QueueHandler:
                 # print(f" [x] Received {body}")
                 call_back(body)
 
-            self.channel.basic_consume(queue=channel_name, on_message_callback=callback)
+            self.channel.basic_consume(queue=self.channel_name, on_message_callback=callback)
 
             print(' [*] Waiting for messages. To exit press CTRL+C')
             self.channel.start_consuming()
@@ -93,7 +95,7 @@ class QueueHandler:
 if __name__ == "__main__":
     print("Queue in action")
 
-    queue = QueueHandler()
+    # queue = QueueHandler()
 
     # queue.publisher("hello_queue", {"name": "bhanu"})
     
