@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import requests
 import xml.etree.ElementTree as et
 from datetime import datetime
 import logging
@@ -7,6 +6,7 @@ import re
 from typing import List, Dict, Optional, Any
 from urllib.parse import urlparse
 import html
+import requests
 
 class BaseNewsFeedParser(ABC):
 

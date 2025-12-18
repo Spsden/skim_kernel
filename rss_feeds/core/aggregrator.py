@@ -1,10 +1,7 @@
-from datetime import date
-from turtle import title
 from typing import List, Dict, Any
 import logging
 from webbrowser import get
 
-from sqlalchemy import Engine
 
 from database.connection import DBConnection
 from database.models.models import RawArticles
@@ -78,6 +75,26 @@ class FeedAggregator:
             self.logger.error(f"Database insertion failed: {str(e)}")
 
 
+    # def get_articles(self, print_articles = False):
+    #     logging.basicConfig(level=logging.INFO)
+
+    #     parsers: List[BaseNewsFeedParser] = [
+    #         # TheHinduParser(),
+    #         TimesOfIndiaParser(),
+    #         # IndiaTodayRSSParser(),
+    #         # BBCParser(),
+    #     ]
+
+
+    #     aggregator = FeedAggregator(parsers)
+
+    #     articles = aggregator.aggregate_feeds()
+
+    #     if print_articles:
+    #         aggregator.print_aggregated_articles(articles=articles)
+            
+
+    #     return articles
 
 
 
@@ -87,7 +104,7 @@ class FeedAggregator:
 def get_articles_and_push_to_database():
     logging.basicConfig(level=logging.INFO)
 
-    parsers = [
+    parsers: List[BaseNewsFeedParser] = [
         # TheHinduParser(),
         TimesOfIndiaParser(),
         # IndiaTodayRSSParser(),
@@ -98,10 +115,10 @@ def get_articles_and_push_to_database():
 
     aggregated_articles = aggregator.aggregate_feeds()
 
-
-
     # print(f"Number of articles fetched {len(aggregated_articles)}")
-    aggregator.print_aggregated_articles(aggregated_articles)
+    # aggregator.print_aggregated_articles(aggregated_articles)
+
+    return aggregated_articles
     # aggregator.push_to_database(aggregated_articles)
 
 

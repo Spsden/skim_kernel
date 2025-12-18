@@ -7,9 +7,9 @@ from sqlalchemy import Engine, Connection
 
 class DBConnection:
 
-    _engine: Engine = None
+    _engine: Engine
 
-    _connection: Connection = None
+    _connection: Connection
 
     _lock = Lock()
 

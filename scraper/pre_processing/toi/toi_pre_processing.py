@@ -4,7 +4,7 @@ from abc import abstractmethod
 import datetime
 import json
 import logging
-from typing import List
+from typing import List, Dict, Any
 from bs4 import BeautifulSoup
 import requests
 # from scraper.pre_processing.base_pre_processing import BasePreProcessing
@@ -119,7 +119,7 @@ class TOIPreprocessing(BasePreProcessing):
 
 
 
-    def get_meta_data(self):
+    def get_article_data(self) -> Dict[str, Any]:
 
         try:
             # invoke call
@@ -130,7 +130,7 @@ class TOIPreprocessing(BasePreProcessing):
             soup = BeautifulSoup(resp.text, "html.parser")
 
             # title handler 
-            title: str = None
+            title: str
 
             if soup.find("h1"):
                 title = soup.find("h1").get_text(strip=True)
@@ -214,7 +214,9 @@ class TOIPreprocessing(BasePreProcessing):
 
                 "description": description or None,
 
-                "authors": authors or None,
+                # "authors": authors or None,
+                "authors": None,
+
 
                 "published_date": published_date or None,
 
@@ -226,6 +228,7 @@ class TOIPreprocessing(BasePreProcessing):
         
         except Exception as e:
             self.logger.error(f"Error in getting meta data {str(e)}")
+            return None
 
 
 
@@ -236,10 +239,10 @@ if __name__ == "__main__":
 
     url = "https://timesofindia.indiatimes.com/sports/cricket/ipl/top-stories/glenn-maxwell-opts-out-of-ipl-2026-pens-emotional-goodbye-to-fans/articleshow/125710727.cms"
 
-    res = TOIPreprocessing(url)
+    # res = TOIPreprocessing(url)
 
-    with open("news.txt", "w") as file:
-        file.write(str(res.get_meta_data()))
+    # with open("news.txt", "w") as file:
+    #     file.write(str(res.get_meta_data()))
 
 
-    print(res.get_meta_data())
+    # print(res.get_meta_data())
