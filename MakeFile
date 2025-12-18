@@ -1,7 +1,7 @@
 # .SILENT:
 
 # to  generate migrations
-#  param MGname for 
+#  param Name for migration desc
 gen-db-migration:
 	alembic revision --autogenerate -m "$(NAME)"
 	
@@ -19,8 +19,8 @@ gen-req:
 create_venv:
 	uv venv
 
+test:
+	echo "hello world"
 
-run_rss:
-	uv run ./main.py kalinga
 
-	
+

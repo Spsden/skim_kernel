@@ -63,14 +63,12 @@ class QueueHandler:
             )
             
             self.logger.info(
-                f"Message sent to exchange for channel name: {self.channel_name}"
+                f" Data added to queue: {self.channel_name}"
             )
-
 
         except Exception as e:
             self.logger.error(f"Error publishing {str(e)}")
 
-    
     def consume(self, call_back: Callable):
         try:
             def callback(ch, method, properties, body):

@@ -16,7 +16,7 @@ Meanwhile, the fallout has triggered action on the ground in Goa. Part of the Ro
 
 if __name__ == "__main__":
   print("temp file called")
-  from msg_queue.handler import QueueHandler
+  from msg_queue.queue_handler import QueueHandler
   from typing import Callable
   from dotenv import load_dotenv
 

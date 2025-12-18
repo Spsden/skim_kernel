@@ -7,8 +7,8 @@ from config.env import get_env
 from llm_handler.model_handler import ModelHandler
 from temp import article
 import logging
-from msg_queue.handler import QueueHandler
-from scraper.pre_processing.toi_pre_processing import TOIPreprocessing 
+from msg_queue.queue_handler import QueueHandler
+from scraper.pre_processing.toi.toi_pre_processing import TOIPreprocessing 
 import sys
 import asyncio
 from config.config import service_names
@@ -27,12 +27,16 @@ async def main(service: str):
       # logic to run rss_service
       logger.info(f"Service {service} started")
       from rss_feeds.main import main
-      asyncio.run(main())
+      main()
+    #   asyncio.run(main())
+    
     
     # scraping service exec
     elif service == service_names["scraping_service"]:
       # logic to run scraping service
       logger.info(f"Service {service} started")
+      from scraper.main import main
+      main()
 
     # summarization service exec
     elif service == service_names["summarization_service"]:

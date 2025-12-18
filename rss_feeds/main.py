@@ -1,19 +1,19 @@
 
 
-from parsers.toi_parser import TimesOfIndiaParser
 from rss_feeds.core.base_parser import BaseNewsFeedParser
 from rss_feeds.core.aggregrator import FeedAggregator
 import logging
 from typing import List
 from config.config import queue_names
-from msg_queue.handler import QueueHandler
+from rss_feeds.parsers.toi_parser import TimesOfIndiaParser
+from msg_queue.queue_handler import QueueHandler
 
-async def main():
+def main():
   from config.config import service_names
 
   service = service_names['rss_service']
 
-  logger = logging.getLogger(f"RSS service ({service})")
+  logger = logging.getLogger(f"RSS service: {service}")
 
   parsers: List[BaseNewsFeedParser] = [
         # TheHinduParser(),
