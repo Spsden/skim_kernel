@@ -79,7 +79,6 @@ class QueueHandler:
 
             self.channel.basic_consume(queue=self.channel_name, on_message_callback=callback)
 
-            print(' [*] Waiting for messages. To exit press CTRL+C')
             self.channel.start_consuming()
 
         except Exception as e:

@@ -2,7 +2,7 @@
 
 # to  generate migrations
 #  param Name for migration desc
-gen-db-migration:
+gen-db:
 	alembic revision --autogenerate -m "$(NAME)"
 	
 
@@ -15,12 +15,25 @@ apply-db:
 gen-req:
 	uv pip freeze > requirements.txt
 
-
+# create virtual environment for python
 create_venv:
 	uv venv
 
-test:
-	echo "hello world"
 
+# run rss-feed service
+run-rss:
+	uv run ./main.py kalinga
+
+# run scraping service
+run-scrap:
+	uv run ./main.py bundelkhand
+
+# run summarization service
+run-summ:
+	uv run ./main.py amarkantak
+
+# run all services at ones
+run-all:
+	uv run ./main.py mahabharat
 
 

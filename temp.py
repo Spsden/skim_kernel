@@ -19,24 +19,18 @@ if __name__ == "__main__":
   from msg_queue.queue_handler import QueueHandler
   from typing import Callable
   from dotenv import load_dotenv
+  from config.env import get_env
 
   load_dotenv()
+  from database.connection import DBConnection
+  database_url = get_env("DATABASE_URL")
 
-  def xyz():
-    print("hello world")
+  database_instance = DBConnection()
+  engine = database_instance.init(database_url)
 
-  print(f"type of function is {xyz}")
+  from database.repository.summarized_articles import PresummarizedArticleRepository
 
-  def zz(x: Callable):
-    x()
-  
-  zz(xyz)
-
-  def callb(s):
-    print(" val is ", s)
-
-  queue = QueueHandler()
-  queue.consume("hello_queue", call_back=callb)
+  PresummarizedArticleRepository().update_body(1, engine, "hello from bhanu")
 
 
   

@@ -36,43 +36,43 @@ class FeedAggregator:
             print("-" * 100)
             print(article)
 
-    def push_to_database(self, articles: List[Dict[str, Any]]):
-        """
-            To push fetched data to database
-        """
+    # def push_to_database(self, articles: List[Dict[str, Any]]):
+    #     """
+    #         To push fetched data to database
+    #     """
 
-        parsed_articles: List[RawArticles] = []
+    #     parsed_articles: List[RawArticles] = []
 
-        # parsing data into accepatable list
-        for article in articles:
+    #     # parsing data into accepatable list
+    #     for article in articles:
 
-                parsed_article = RawArticles(
-                    title = article.get("title", "NA"),
+                # parsed_article = RawArticles(
+                #     title = article.get("title", "NA"),
 
-                    article_url = article.get("link", "NA"),
+                #     article_url = article.get("link", "NA"),
 
-                    source = article.get("source", "NA"),
+                #     source = article.get("source", "NA"),
 
-                    image_url = article.get("image_url", "NA"),
+                #     image_url = article.get("image_url", "NA"),
 
-                    published_date = article.get("pub_date", "NA"),
-                )
+                #     published_date = article.get("pub_date", "NA"),
+                # )
 
-                parsed_articles.append(parsed_article)
+    #             parsed_articles.append(parsed_article)
             
 
         
-        # inserting into database 
-        try:
-            database_engine = DBConnection.get_engine()
+    #     # inserting into database 
+    #     try:
+    #         database_engine = DBConnection.get_engine()
 
-            RawArticleRepository.insert(database_engine, parsed_articles)
+    #         RawArticleRepository.insert(database_engine, parsed_articles)
 
-            self.logger.info("Articles sucessfully inserted into database")
+    #         self.logger.info("Articles sucessfully inserted into database")
                 
 
-        except Exception as e:
-            self.logger.error(f"Database insertion failed: {str(e)}")
+    #     except Exception as e:
+    #         self.logger.error(f"Database insertion failed: {str(e)}")
 
 
     # def get_articles(self, print_articles = False):

@@ -7,16 +7,14 @@ from sqlalchemy import Engine, Connection
 
 class DBConnection:
 
-    _engine: Engine
-
-    _connection: Connection
+    _engine = None 
 
     _lock = Lock()
 
     @classmethod
     def init(cls, database_url: str):
 
-            if cls._engine:
+            if cls._engine is not None:
                 return cls._engine
 
             with cls._lock:

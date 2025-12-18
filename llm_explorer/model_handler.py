@@ -28,7 +28,6 @@ class ModelHandler:
 
         # loggin
         self._logger.info(f"Model: {self._model} \ntoken: {self._model_token_size} \nchunk_size: {self._chunk_size}")
-        
 
         # load model
         self.pipe = pipeline(self._model_type, model=self._model, device_map=self._device_map)

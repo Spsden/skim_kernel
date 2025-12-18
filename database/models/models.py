@@ -1,7 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, ForeignKey, String, DateTime, Boolean
 from sqlalchemy.sql.functions import func
-from sqlalchemy.orm import relationship, mapped_column
+from sqlalchemy.orm import relationship
 
 from database.table_names import TABLES
 
@@ -47,13 +47,13 @@ class SummarizedArticles(Base):
 
     body = Column(String, nullable=True)
 
-    img_src = Column(String, nullable=False)
+    img_src = Column(String)
 
-    published_date = Column(String, nullable=False)
+    published_date = Column(String)
 
     createdAt = Column(DateTime, nullable=False, insert_default=func.now())
 
-    updatedAt = Column(DateTime, nullable=False, insert_default=func.now(), onupdate=func.now()),
+    updatedAt = Column(DateTime, nullable=False, insert_default=func.now(), onupdate=func.now())
 
     category = relationship("ArticlesCategory", back_populates="articles")
     category_id = Column(Integer(), ForeignKey(f"{TABLES['article_category']}.id"))
