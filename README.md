@@ -266,17 +266,6 @@ Required environment variables:
 - The BART model requires sufficient GPU memory for optimal performance
 - All services log their activities for debugging and monitoring
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests (if available)
-5. Submit a pull request
-
-## 📄 License
-
-[Add your license information here]
 
 ## 👤 Author
 
