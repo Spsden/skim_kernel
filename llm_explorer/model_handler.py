@@ -76,6 +76,9 @@ class ModelHandler:
         """
         
         try:
+
+            print(f"function called for article  {article[:60]}")
+
             token_counts = self.get_tokens_count(article)
 
             processsed_article: str = ""
