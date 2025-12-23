@@ -1,8 +1,8 @@
 import logging
-import os 
+import os
+
 
 def get_env(key: str) -> str:
-
     """
     Args:
         key (str): The key to get the value for.

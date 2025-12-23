@@ -7,28 +7,30 @@ from rss_feeds.core.base_parser import BaseNewsFeedParser
 import re
 
 
-
 class IndiaTodayRSSParser(BaseNewsFeedParser):
     def __init__(self):
-        super().__init__(
-            feed_url=INDIA_TODAY_HOME,
-            source_name="India Today"
-        )
-        self.config['max_description_length'] = 800  # Shorter descriptions
-        self.config['extract_images'] = True
+        super().__init__(feed_url=INDIA_TODAY_HOME, source_name="India Today")
+        self.config["max_description_length"] = 800  # Shorter descriptions
+        self.config["extract_images"] = True
 
     def _parse_specific_feed(self, root: et.Element) -> List[Dict[str, Any]]:
         articles = []
 
-        for item in root.findall('.//item'):
+        for item in root.findall(".//item"):
             try:
                 article = {
-                    'source' : 'India Today',
-                    'title': self._clean_html(item.findtext('title')),
-                    'link': item.findtext('link'),
-                    'description': self._clean_html(item.findtext('description')),
-                    'pub_date': self._parse_datetime(item.findtext('pubDate')),
-                    'image_url': self.extract_image_url(item.findtext('description'),INDIA_TODAY_HOME) if self.config['extract_images'] else None
+                    "source": "India Today",
+                    "title": self._clean_html(item.findtext("title")),
+                    "link": item.findtext("link"),
+                    "description": self._clean_html(item.findtext("description")),
+                    "pub_date": self._parse_datetime(item.findtext("pubDate")),
+                    "image_url": (
+                        self.extract_image_url(
+                            item.findtext("description"), INDIA_TODAY_HOME
+                        )
+                        if self.config["extract_images"]
+                        else None
+                    ),
                 }
 
                 articles.append(article)
@@ -47,13 +49,12 @@ class IndiaTodayRSSParser(BaseNewsFeedParser):
         except Exception as e:
             self.logger.error(f"Error at India today: {e}")
 
-    def extract_image_url(self, item,source:Optional[str]) -> Optional[str]:
+    def extract_image_url(self, item, source: Optional[str]) -> Optional[str]:
         clean_desc = re.search(r'<img[^>]+src="([^"]+)"', item)
         if clean_desc:
             return clean_desc.group(1)
         else:
             var = None
-
 
 
 # def main():

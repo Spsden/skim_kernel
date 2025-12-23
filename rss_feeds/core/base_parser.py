@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 import html
 import requests
 
+
 class BaseNewsFeedParser(ABC):
 
     def __init__(self, feed_url: str, source_name: str):
@@ -16,9 +17,9 @@ class BaseNewsFeedParser(ABC):
         self.logger = logging.getLogger(f"{self.__class__.__name__}_{source_name}")
 
         self.config = {
-            'max_description_length': 500,
-            'validate_urls': True,
-            'extract_images': True
+            "max_description_length": 500,
+            "validate_urls": True,
+            "extract_images": True,
         }
 
     @abstractmethod
@@ -30,7 +31,6 @@ class BaseNewsFeedParser(ABC):
             response = requests.get(
                 self.feed_url,
                 timeout=10,
-
                 ##TODO : FIND SUITABLE HEADERS. FIREFOX HEADERS BREAK TOI
                 # headers={
                 #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0',
@@ -41,15 +41,16 @@ class BaseNewsFeedParser(ABC):
                 #     'Upgrade-Insecure-Requests': '1',
                 #     'TE': 'Trailers'
                 # }
-
             )
             response.raise_for_status()
-            self.logger.info(f"Response received from : {self.source_name}  {self.feed_url}")
+            self.logger.info(
+                f"Response received from : {self.source_name}  {self.feed_url}"
+            )
             try:
                 root = et.fromstring(response.content)
             except et.ParseError as xml_err:
                 self.logger.error(f"XML Parsing error: {xml_err}")
-                with open('error_feed.xml', 'wb') as f:
+                with open("error_feed.xml", "wb") as f:
                     f.write(response.content)
                 raise
 
@@ -60,22 +61,34 @@ class BaseNewsFeedParser(ABC):
             return articles
 
         except requests.RequestException as req_err:
-            self.logger.error(f"Network error fetching {self.source_name} feed: {req_err}")
+            self.logger.error(
+                f"Network error fetching {self.source_name} feed: {req_err}"
+            )
             raise
         except Exception as e:
-            self.logger.error(f"Unexpected error processing {self.source_name} feed: {e}")
+            self.logger.error(
+                f"Unexpected error processing {self.source_name} feed: {e}"
+            )
             raise
 
-    def _post_process_articles(self, articles: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _post_process_articles(
+        self, articles: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         processed_articles = []
         for article in articles:
-            article['source'] = self.source_name
+            article["source"] = self.source_name
 
-            if article.get('description') and len(article['description']) > self.config['max_description_length']:
-                article['description'] = article['description'][:self.config['max_description_length']] + '...'
+            if (
+                article.get("description")
+                and len(article["description"]) > self.config["max_description_length"]
+            ):
+                article["description"] = (
+                    article["description"][: self.config["max_description_length"]]
+                    + "..."
+                )
 
-            if self.config['validate_urls']:
-                if not self._validate_url(article.get('link', '')):
+            if self.config["validate_urls"]:
+                if not self._validate_url(article.get("link", "")):
                     self.logger.warning(f"Invalid article URL: {article.get('link')}")
                     continue
 
@@ -97,22 +110,24 @@ class BaseNewsFeedParser(ABC):
             return ""
 
         text = html.unescape(text)
-        text = text.replace('<![CDATA[', '').replace(']]>', '')
+        text = text.replace("<![CDATA[", "").replace("]]>", "")
         if strip_tags:
-            text = re.sub(r'<[^>]+>', '', text)
-        text = ' '.join(text.split())
+            text = re.sub(r"<[^>]+>", "", text)
+        text = " ".join(text.split())
 
         return text.strip()
 
     @staticmethod
-    def _parse_datetime(date_str: Optional[str], formats: List[str] = None) -> Optional[str]:
+    def _parse_datetime(
+        date_str: Optional[str], formats: List[str] = None
+    ) -> Optional[str]:
         if not date_str:
             return None
 
         default_formats = [
-            '%a, %d %b %Y %H:%M:%S %z',
-            '%Y-%m-%d %H:%M:%S %z',
-            '%Y-%m-%dT%H:%M:%S%z'
+            "%a, %d %b %Y %H:%M:%S %z",
+            "%Y-%m-%d %H:%M:%S %z",
+            "%Y-%m-%dT%H:%M:%S%z",
         ]
 
         formats = formats or default_formats

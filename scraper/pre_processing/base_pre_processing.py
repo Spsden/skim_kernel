@@ -1,11 +1,8 @@
-
-
 from abc import abstractmethod
 import logging
 
 
 class BasePreProcessing:
-
     """
     base abstract class contains methods that need to be implemented
     """

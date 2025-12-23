@@ -1,6 +1,3 @@
-
-
-
 article = """
 NEW DELHI: Goa police have confirmed that Saurabh and Gaurav Luthra, owners of the Birch by Romeo Lane nightclub where a devastating fire killed 25 people, are currently in Thailand, raising the central question now driving the investigation: can the brothers be extradited? As authorities pursue them with international assistance, India’s extradition treaty with Thailand has come sharply into focus.
 Interpol has issued a Blue Corner Notice against the Luthras after they fled the country within hours of the blaze. Goa’s Deputy Inspector General, Varsha Sharma, said, “We have come to know that the club owners are in Phuket, and we are taking action with the help of CBI and INTERPOL.” She added that Lookout Circulars had been issued and that “our teams are present in Delhi” as the search widened beyond India’s borders. Officials described the rapid issuance of the notice as unusually swift, adding, “Normally, this process takes a week or more, but because of the concerted efforts of Goa Police and the strong support from central agencies, it was completed much faster.”
@@ -15,31 +12,42 @@ Meanwhile, the fallout has triggered action on the ground in Goa. Part of the Ro
 
 
 if __name__ == "__main__":
-  print("temp file called")
-  from msg_queue.queue_handler import QueueHandler
-  from typing import Callable
-  from dotenv import load_dotenv
+    print("temp file called")
+    from msg_queue.queue_handler import QueueHandler
+    from typing import Callable
+    from dotenv import load_dotenv
+    import logging
+    from config.env import get_env
 
-  load_dotenv()
+    load_dotenv()
+    try:
+        logging.basicConfig(level=logging.INFO)
+        from database.connection import DBConnection
 
-  def xyz():
-    print("hello world")
+        database_url = get_env("DATABASE_URL")
 
-  print(f"type of function is {xyz}")
+        database_instance = DBConnection()
+        engine = database_instance.init(database_url)
 
-  def zz(x: Callable):
-    x()
-  
-  zz(xyz)
+        from database.repository.summarized_articles import (
+            PresummarizedArticleRepository,
+        )
 
-  def callb(s):
-    print(" val is ", s)
+        PresummarizedArticleRepository().update_body(1, engine, "hello from bhanu")
+        print("insertiion called ")
 
-  queue = QueueHandler()
-  queue.consume("hello_queue", call_back=callb)
+    except Exception as e:
+        print(f"value is {str(e)}")
+    # from database.connection import DBConnection
+    # database_url = get_env("DATABASE_URL")
 
+    # database_instance = DBConnection()
+    # engine = database_instance.init(database_url)
 
-  
+    # from database.repository.summarized_articles import PresummarizedArticleRepository
+
+    # PresummarizedArticleRepository().update_body(1, engine, "hello from bhanu")
+
 
 #    # This is a sample Python script.
 
@@ -53,7 +61,7 @@ if __name__ == "__main__":
 # from llm_handler.model_handler import ModelHandler
 # from temp import article
 # from msg_queue.handler import QueueHandler
-# from scraper.pre_processing.toi_pre_processing import TOIPreprocessing 
+# from scraper.pre_processing.toi_pre_processing import TOIPreprocessing
 # load_dotenv()
 
 
@@ -77,7 +85,7 @@ if __name__ == "__main__":
 
 
 #         # print(res.get_meta_data())
-   
+
 #         # xyz = ModelHandler()
 #         # res = xyz.summarize_article(article=article)
 #         # print(f"response is {res}")
@@ -97,7 +105,6 @@ if __name__ == "__main__":
 #             print(ress.get_meta_data())
 
 #             meta = ress.get_meta_data()
-
 
 
 #             summarized_art = article_summm.summarize_article(meta["body"])
@@ -127,21 +134,15 @@ if __name__ == "__main__":
 #     except Exception as e:
 #         # logger.error(f"error in main function: {str(e)}")
 #         exit(0)
-    
+
 #     # print(f"database url {database_url}")
 
-    
 
-# # 
+# #
 #     # sel
 
 
-    
-    
-
 #     # database init
-
-
 
 
 # # See PyCharm help at https://www.jetbrains.com/help/pycharm/
