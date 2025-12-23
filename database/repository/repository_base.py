@@ -1,5 +1,3 @@
-
-
 from abc import abstractmethod
 import logging
 from sqlalchemy import Engine
@@ -14,18 +12,9 @@ class RepositoryBase:
         # try:
         #     self.database_engine = database_engine
 
-
         # except Exception as e:
 
         #     self.logger.error(f"Error in Repository: {str(e)}")
 
-    def insert(self, engine: Engine, data):            
+    def insert(self, engine: Engine, data):
         pass
-
-    
-
-
-
-
-    
-    

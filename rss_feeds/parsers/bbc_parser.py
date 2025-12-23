@@ -11,35 +11,36 @@ from rss_feeds.core.base_parser import BaseNewsFeedParser
 
 class BBCParser(BaseNewsFeedParser):
     def __init__(self):
-        super().__init__(
-            feed_url= BBC_HOME,
-            source_name="BBC"
-        )
-        self.config['max_description_length'] = 800  # Shorter descriptions
-        self.config['extract_images'] = True
+        super().__init__(feed_url=BBC_HOME, source_name="BBC")
+        self.config["max_description_length"] = 800  # Shorter descriptions
+        self.config["extract_images"] = True
 
     def _parse_specific_feed(self, root: et.Element) -> List[Dict[str, Any]]:
         articles = []
 
-        channel = root.find('channel')
+        channel = root.find("channel")
 
-        for item in channel.findall('item'):
+        for item in channel.findall("item"):
             try:
-                description = self._clean_html(item.findtext('description'))
+                description = self._clean_html(item.findtext("description"))
                 image_url = self.extract_image_url(item)
                 description = self.clean_description(description)
 
                 article = {
-                    'source' : 'BBC',
-                    'title': self._clean_html(item.findtext('title')),
-                    'description': description,
-                    'link': item.findtext('link'),
-                    'guid': item.findtext('guid'),
-                    'pub_date': self._parse_date(item.findtext('pubDate')),
-                    'image_url': image_url
+                    "source": "BBC",
+                    "title": self._clean_html(item.findtext("title")),
+                    "description": description,
+                    "link": item.findtext("link"),
+                    "guid": item.findtext("guid"),
+                    "pub_date": self._parse_date(item.findtext("pubDate")),
+                    "image_url": image_url,
                 }
 
-                if not article['title'] or not article['link'] or not self._validate_url(article['link']):
+                if (
+                    not article["title"]
+                    or not article["link"]
+                    or not self._validate_url(article["link"])
+                ):
                     self.logger.warning(f"Skipping invalid article: {article['title']}")
                     continue
 
@@ -49,7 +50,6 @@ class BBCParser(BaseNewsFeedParser):
                 continue
 
         return articles
-
 
     def get_articles(self):
         parser = BBCParser()
@@ -62,24 +62,25 @@ class BBCParser(BaseNewsFeedParser):
             print(f"from inda_today : {e}")
 
     def extract_image_url(self, item) -> Optional[str]:
-        """ Extract thumbnail image URL from the <media:thumbnail> tag """
-        thumbnail = item.find('media:thumbnail', namespaces={'media': 'http://search.yahoo.com/mrss/'})
-        if thumbnail is not None and 'url' in thumbnail.attrib:
-            return thumbnail.attrib['url']
+        """Extract thumbnail image URL from the <media:thumbnail> tag"""
+        thumbnail = item.find(
+            "media:thumbnail", namespaces={"media": "http://search.yahoo.com/mrss/"}
+        )
+        if thumbnail is not None and "url" in thumbnail.attrib:
+            return thumbnail.attrib["url"]
         return None
 
-
-    def clean_description(self, text: Optional[str]) :
-        cleaned_text = re.sub(r'<a[^>]*>.*?</a>', '', text)
-        cleaned_text = re.sub(r'<img[^>]*>', '', cleaned_text)
-        cleaned_text = re.sub(r'<[^>]+>', '', cleaned_text)
+    def clean_description(self, text: Optional[str]):
+        cleaned_text = re.sub(r"<a[^>]*>.*?</a>", "", text)
+        cleaned_text = re.sub(r"<img[^>]*>", "", cleaned_text)
+        cleaned_text = re.sub(r"<[^>]+>", "", cleaned_text)
         cleaned_text = html.unescape(cleaned_text)
-        cleaned_text = ' '.join(cleaned_text.split())
+        cleaned_text = " ".join(cleaned_text.split())
         return cleaned_text
 
     def _parse_date(self, date_str: str) -> str:
         try:
-            dt = datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S GMT')
+            dt = datetime.strptime(date_str, "%a, %d %b %Y %H:%M:%S GMT")
             return dt.isoformat()
         except (ValueError, TypeError):
             self.logger.warning(f"Could not parse date: {date_str}")

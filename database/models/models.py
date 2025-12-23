@@ -8,6 +8,7 @@ from database.table_names import TABLES
 Base = declarative_base()
 metadata = Base.metadata
 
+
 class RawArticles(Base):
 
     __tablename__ = TABLES["raw_articles"]
@@ -28,9 +29,16 @@ class RawArticles(Base):
 
     createdAt = Column(DateTime, nullable=False, insert_default=func.now())
 
-    updatedAt = Column(DateTime, nullable=False, insert_default=func.now(), onupdate=func.now())
+    updatedAt = Column(
+        DateTime, nullable=False, insert_default=func.now(), onupdate=func.now()
+    )
 
-    summary = relationship("SummarizedArticles", uselist=False, back_populates="raw_article", cascade="all, delete-orphan")
+    summary = relationship(
+        "SummarizedArticles",
+        uselist=False,
+        back_populates="raw_article",
+        cascade="all, delete-orphan",
+    )
 
 
 class SummarizedArticles(Base):
@@ -53,13 +61,17 @@ class SummarizedArticles(Base):
 
     createdAt = Column(DateTime, nullable=False, insert_default=func.now())
 
-    updatedAt = Column(DateTime, nullable=False, insert_default=func.now(), onupdate=func.now())
+    updatedAt = Column(
+        DateTime, nullable=False, insert_default=func.now(), onupdate=func.now()
+    )
 
     category = relationship("ArticlesCategory", back_populates="articles")
     category_id = Column(Integer(), ForeignKey(f"{TABLES['article_category']}.id"))
 
     raw_article = relationship("RawArticles", back_populates="summary", uselist=False)
-    raw_article_id = Column(Integer(), ForeignKey(f"{TABLES['raw_articles']}.id"), unique=True)
+    raw_article_id = Column(
+        Integer(), ForeignKey(f"{TABLES['raw_articles']}.id"), unique=True
+    )
 
 
 class ArticlesCategory(Base):
@@ -76,6 +88,8 @@ class ArticlesCategory(Base):
 
     created_at = Column(DateTime, nullable=False, insert_default=func.now())
 
-    updatedAt = Column(DateTime, nullable=False, insert_default=func.now(), onupdate=func.now())
-    
+    updatedAt = Column(
+        DateTime, nullable=False, insert_default=func.now(), onupdate=func.now()
+    )
+
     articles = relationship("SummarizedArticles", back_populates="category")

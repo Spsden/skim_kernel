@@ -1,5 +1,3 @@
-
-
 from rss_feeds.core.base_parser import BaseNewsFeedParser
 from rss_feeds.core.aggregrator import FeedAggregator
 import logging
@@ -12,56 +10,59 @@ from database.connection import DBConnection
 from database.repository.raw_articles import RawArticleRepository
 from database.models.models import RawArticles
 
+
 def main():
-  from config.config import service_names
+    from config.config import service_names
 
-  service_name = service_names['rss_service']
+    service_name = service_names["rss_service"]
 
-  logger = logging.getLogger(f"RSS service: {service_name} ")
+    logger = logging.getLogger(f"RSS service: {service_name} ")
 
-  parsers: List[BaseNewsFeedParser] = [
+    parsers: List[BaseNewsFeedParser] = [
         # TheHinduParser(),
         TimesOfIndiaParser(),
         # IndiaTodayRSSParser(),
         # BBCParser(),
-  ]
+    ]
 
-  try:
-    aggregator = FeedAggregator(parsers) 
-    articles = aggregator.aggregate_feeds()
+    try:
+        aggregator = FeedAggregator(parsers)
+        articles = aggregator.aggregate_feeds()
 
-    # database 
-    database_engine = DBConnection().get_engine()
-    
-    # sending articles to scraper queue
-    channel_name = queue_names["rss_to_scraping"]
-    rss_to_scraping_queue = QueueHandler(channel_name=channel_name)
+        # database
+        database_engine = DBConnection().get_engine()
 
-    logger.info(f"Articles count: {len(articles)}")
+        # sending articles to scraper queue
+        channel_name = queue_names["rss_to_scraping"]
+        rss_to_scraping_queue = QueueHandler(channel_name=channel_name)
 
-    for article in articles:
-      # add to database 
-      raw_article = RawArticles(
-          title = article.get("title", "NA"),
-          article_url = article.get("link", "NA"),
-          source = article.get("source", "NA"),
-          image_url = article.get("image_url", "NA"),
-          published_date = article.get("pub_date", "NA"),
-      )
+        logger.info(f"Articles count: {len(articles)}")
 
-      raw_article_id = RawArticleRepository.insert(engine=database_engine, data=raw_article)
+        for article in articles:
+            # add to database
+            raw_article = RawArticles(
+                title=article.get("title", "NA"),
+                article_url=article.get("link", "NA"),
+                source=article.get("source", "NA"),
+                image_url=article.get("image_url", "NA"),
+                published_date=article.get("pub_date", "NA"),
+            )
 
-      if raw_article_id is None:
-        continue
-      
-      # add raw article id to dict
-      article["raw_article_id"] = raw_article_id
+            raw_article_id = RawArticleRepository.insert(
+                engine=database_engine, data=raw_article
+            )
 
-      # push to queue
-      rss_to_scraping_queue.publisher(article)
+            if raw_article_id is None:
+                continue
 
-    logger.info(f"Articles are send to queue: {channel_name}")
+            # add raw article id to dict
+            article["raw_article_id"] = raw_article_id
 
-  except Exception as e:
-    logger.error(f"Main fun {str(e)}")
-    raise e
+            # push to queue
+            rss_to_scraping_queue.publisher(article)
+
+        logger.info(f"Articles are send to queue: {channel_name}")
+
+    except Exception as e:
+        logger.error(f"Main fun {str(e)}")
+        raise e

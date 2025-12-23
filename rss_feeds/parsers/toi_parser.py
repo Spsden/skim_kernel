@@ -9,24 +9,27 @@ from rss_feeds.core.base_parser import BaseNewsFeedParser
 class TimesOfIndiaParser(BaseNewsFeedParser):
     def __init__(self):
         super().__init__(
-            feed_url= TIMES_OF_INDIA_HOME + TOI_TOP_STORIES,
-            source_name="Times of India"
+            feed_url=TIMES_OF_INDIA_HOME + TOI_TOP_STORIES, source_name="Times of India"
         )
-        self.config['max_description_length'] = 800
-        self.config['extract_images'] = True
+        self.config["max_description_length"] = 800
+        self.config["extract_images"] = True
 
     def _parse_specific_feed(self, root: et.Element) -> List[Dict[str, Any]]:
         articles = []
 
-        for item in root.findall('.//item'):
+        for item in root.findall(".//item"):
             try:
                 article = {
-                    'source' : 'Times of India',
-                    'title': self._clean_html(item.findtext('title')),
-                    'link': item.findtext('link'),
-                    'description': self._clean_html(item.findtext('description')),
-                    'pub_date': self._parse_datetime(item.findtext('pubDate')),
-                    'image_url': self.extract_image_url(item) if self.config['extract_images'] else None
+                    "source": "Times of India",
+                    "title": self._clean_html(item.findtext("title")),
+                    "link": item.findtext("link"),
+                    "description": self._clean_html(item.findtext("description")),
+                    "pub_date": self._parse_datetime(item.findtext("pubDate")),
+                    "image_url": (
+                        self.extract_image_url(item)
+                        if self.config["extract_images"]
+                        else None
+                    ),
                 }
 
                 articles.append(article)
@@ -35,7 +38,6 @@ class TimesOfIndiaParser(BaseNewsFeedParser):
                 continue
 
         return articles
-
 
     def get_articles(self):
         parser = TimesOfIndiaParser()
@@ -48,17 +50,16 @@ class TimesOfIndiaParser(BaseNewsFeedParser):
             print(f"from inda_today : {e}")
 
     def extract_image_url(self, item) -> Optional[str]:
-        enclosure = item.find('enclosure')
-        if enclosure is not None and 'url' in enclosure.attrib:
-            return enclosure.attrib['url']
+        enclosure = item.find("enclosure")
+        if enclosure is not None and "url" in enclosure.attrib:
+            return enclosure.attrib["url"]
         return None
-
 
 
 def main():
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
 
     parser = TimesOfIndiaParser()

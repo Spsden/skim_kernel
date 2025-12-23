@@ -1,5 +1,3 @@
-
-
 from abc import abstractmethod
 import datetime
 import json
@@ -7,12 +5,13 @@ import logging
 from typing import List, Dict, Any
 from bs4 import BeautifulSoup
 import requests
+
 # from scraper.pre_processing.base_pre_processing import BasePreProcessing
 import re
 from urllib.parse import urlparse, urlunparse
 
-class BasePreProcessing:
 
+class BasePreProcessing:
     """
     base abstract class contains methods that need to be implemented
     """
@@ -33,6 +32,7 @@ class BasePreProcessing:
     def get_article_body(self):
         pass
 
+
 class TOIPreprocessing(BasePreProcessing):
     """
     scraping logic for TOI
@@ -41,37 +41,34 @@ class TOIPreprocessing(BasePreProcessing):
     def __init__(self, raw_url: str) -> None:
         super().__init__(raw_url)
 
-
     def normal_url_to_processed(self) -> str:
         """
         convert 'articleshow/' to 'articleshowprint/'.
         """
         parsed = urlparse(self.raw_url)
 
-        path_parts = parsed.path.split('/')
-
+        path_parts = parsed.path.split("/")
 
         new_parts = []
         replaced = False
         for part in path_parts:
-            if part == 'articleshow':
-                new_parts.append('articleshowprint')
+            if part == "articleshow":
+                new_parts.append("articleshowprint")
                 replaced = True
             else:
                 new_parts.append(part)
         if replaced:
-            new_path = '/'.join(new_parts)
+            new_path = "/".join(new_parts)
             new_parsed = parsed._replace(path=new_path)
             return urlunparse(new_parsed)
         else:
             return url
 
-
     def extract_body_print(self):
 
         try:
             # print article url for body extraction
-            modified_url =  self.normal_url_to_processed()
+            modified_url = self.normal_url_to_processed()
 
             resp = requests.get(modified_url, headers={"User-Agent": "Mozilla/5.0"})
 
@@ -90,11 +87,8 @@ class TOIPreprocessing(BasePreProcessing):
         except Exception as e:
             self.logger.error(f"Failed to extract body {str(e)}")
 
-
-
-
     def normalize_date(self, raw_date: str):
-       
+
         if not raw_date:
             return None
 
@@ -117,8 +111,6 @@ class TOIPreprocessing(BasePreProcessing):
         except:
             return raw_date
 
-
-
     def get_article_data(self) -> Dict[str, Any]:
 
         try:
@@ -129,7 +121,7 @@ class TOIPreprocessing(BasePreProcessing):
 
             soup = BeautifulSoup(resp.text, "html.parser")
 
-            # title handler 
+            # title handler
             title: str
 
             if soup.find("h1"):
@@ -152,15 +144,14 @@ class TOIPreprocessing(BasePreProcessing):
                 parts = [p.strip() for p in text.split("/") if p.strip()]
 
                 if len(parts) >= 2:
-                    authors = parts[:-1]  
+                    authors = parts[:-1]
 
                 # Extract date
                 m = re.search(r"(Published|Updated):\s*(.*)", text)
                 if m:
                     published_date = self.normalize_date(m.group(2))
 
-
-            # description 
+            # description
             description = None
 
             meta_desc = soup.find("meta", attrs={"name": "description"})
@@ -187,7 +178,9 @@ class TOIPreprocessing(BasePreProcessing):
                             continue
 
                         if "datePublished" in block:
-                            published_date = published_date or self.normalize_date(block["datePublished"])
+                            published_date = published_date or self.normalize_date(
+                                block["datePublished"]
+                            )
 
                         if "author" in block:
                             auth = block["author"]
@@ -203,37 +196,23 @@ class TOIPreprocessing(BasePreProcessing):
                 except:
                     pass
 
-            
             body = self.extract_body_print()
 
             authors = list(dict.fromkeys(authors))
 
-
             return {
                 "title": title or None,
-
                 "description": description or None,
-
                 # "authors": authors or None,
                 "authors": None,
-
-
                 "published_date": published_date or None,
-
-                "body": body or None
-
+                "body": body or None,
             }
 
-
-        
         except Exception as e:
             self.logger.error(f"Error in getting meta data {str(e)}")
             return None
 
-
-
-
-        
 
 if __name__ == "__main__":
 
@@ -243,6 +222,5 @@ if __name__ == "__main__":
 
     # with open("news.txt", "w") as file:
     #     file.write(str(res.get_meta_data()))
-
 
     # print(res.get_meta_data())
