@@ -11,6 +11,7 @@ from database.models.models import SummarizedArticles
 def main():
 
     from config.config import service_names
+    print("suraj")
 
     service_name = service_names["scraping_service"]
 
@@ -46,6 +47,7 @@ def main():
 
                 # to get all data primrly body
                 scraped_article_with_body = scraping_handler.get_article_data()
+                print(scraped_article_with_body)
 
                 if scraped_article_with_body is None:
                     logger.warning(f"Article scraping failed")
@@ -62,6 +64,7 @@ def main():
                     published_date=article_in_json_format["pub_date"]
                     or scraped_article_with_body.get("published_date", None),
                     raw_article_id=article_in_json_format["raw_article_id"] or None,
+                    body=scraped_article_with_body['body'] or None
                     # TODO: call llm or check for category
                 )
 

@@ -2,7 +2,6 @@ from database.connection import DBConnection
 from rss_feeds.core.aggregrator import get_articles_and_push_to_database
 from dotenv import load_dotenv
 from config.env import get_env
-from llm_explorer.model_handler import ModelHandler
 from temp import article
 import logging
 from msg_queue.queue_handler import QueueHandler

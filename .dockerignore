@@ -1,0 +1,97 @@
+# =============================================================================
+# DOCKERIGNORE - Files to exclude from Docker build context
+# =============================================================================
+
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# UV specific
+.uv/
+uv-cache/
+
+# Environment / secrets (never build these into images)
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE & editor
+.vscode/
+.idea/
+*.sublime-*
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.hypothesis/
+
+# Documentation
+docs/_build/
+*.md
+!README.md
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Claude session files
+.claude/
+
+# Test files
+test_*.py
+*_test.py
+tests/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Requirements (using pyproject.toml now)
+requirements.txt

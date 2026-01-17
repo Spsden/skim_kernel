@@ -166,5 +166,12 @@ docs/_build/
 .vscode/
 
 # Pyenv
-.python-version
+# .python-version  # Commented out - UV needs this file to be tracked
+
+# _________________________________________
+# UV Package Manager
+# _________________________________________
+.uv/
+uv-cache/
+uv.lock
 
