@@ -55,6 +55,8 @@ class SummarizedArticles(Base):
 
     body = Column(String, nullable=True)
 
+    summary = Column(String, nullable=True)
+
     img_src = Column(String)
 
     published_date = Column(String)

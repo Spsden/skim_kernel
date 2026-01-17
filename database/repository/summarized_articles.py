@@ -58,7 +58,15 @@ class PresummarizedArticleRepository(RepositoryBase):
             return None
 
     @classmethod
-    def update_body(cls, id, engine: Engine, article_body: str):
+    def update_summary(cls, id, engine: Engine, summary: str):
+        """
+        Update the summary column for an article.
+
+        Args:
+            id: The article ID to update.
+            engine: SQLAlchemy database engine.
+            summary: The summarized article text.
+        """
         try:
             Session = sessionmaker(engine)
 
@@ -72,10 +80,10 @@ class PresummarizedArticleRepository(RepositoryBase):
                 logging.warning(f"Article with {id} not found")
                 return
 
-            article_to_update.body = article_body  # type: ignore
+            article_to_update.summary = summary  # type: ignore
             session.commit()
 
-            logging.info(f"Article {id} body is updated.")
+            logging.info(f"Article {id} summary is updated.")
 
         except Exception as e:
             logging.error(f"Failed to update: {str(e)}")

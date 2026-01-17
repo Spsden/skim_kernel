@@ -1,26 +1,16 @@
-model_config = {
-    "name": "facebook/bart-large-cnn",
-    "token_size": 1024,
-    "chunk_size": 300,
-    "type": "summarization",
-    "device_map": "auto",
-}
-
-
-prompts = {
-    "chunking": """
-   Summarize the text below into a factual news note in 5-7 lines. 
-Keep only important names, events, places, dates, and outcomes.
-No personal opinions, no storytelling embellishments.
-
-Text:
-""",
-    "article_summarizer": """
- You are an experienced news editor specializing in short, crisp summaries.
- Your task:
-Produce a single 50-60 word summary.
-Focus only on key facts, events, dates, places, names, and outcomes.
-Maintain a neutral, factual tone with no opinions or extra commentary.
-Remove repetition and keep the summary concise and coherent.
-""",
-}
+# ============================================================================
+# OPENROUTER CONFIGURATION
+# ============================================================================
+# OpenRouter API configuration for cloud-based summarization.
+#
+# Environment Variables:
+#   OPENROUTER_API_KEY:  Your OpenRouter API key (required)
+#   OPENROUTER_MODEL:    Model to use (optional, has sensible default)
+#
+# Popular models:
+#   - meta-llama/llama-3.1-70b-instruct  (default, excellent quality, ~$0.59/1M tokens)
+#   - google/gemini-flash-1.5             (faster, cheaper, good quality)
+#   - mistralai/mistral-7b-instruct       (very cheap, good enough)
+#   - anthropic/claude-3.5-sonnet         (best quality, higher cost)
+#
+# See https://openrouter.ai/models for all available models.

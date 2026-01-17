@@ -67,13 +67,33 @@ class QueueHandler:
             self.logger.error(f"Error publishing {str(e)}")
 
     def consume(self, call_back: Callable):
+        """
+        Consume messages from the queue with acknowledgment.
+
+        Messages are ACKed after successful processing.
+        If processing fails, the message is NACKed and re-queued.
+        """
         try:
+            self.channel.basic_qos(prefetch_count=1)
 
             def callback(ch, method, properties, body):
-                # print(f"channel is {ch}")
-                # print(f"method is {method}")
-                # print(f" [x] Received {body}")
-                call_back(body)
+                try:
+                    # print(f"channel is {ch}")
+                    # print(f"method is {method}")
+                    # print(f" [x] Received {body}")
+                    call_back(body)
+
+                    # ACK after successful processing
+                    ch.basic_ack(delivery_tag=method.delivery_tag)
+                    self.logger.debug(f"Message ACKed: {method.delivery_tag}")
+
+                except Exception as e:
+                    # NACK on failure - requeue the message
+                    self.logger.error(f"Error processing message: {str(e)}")
+                    ch.basic_nack(
+                        delivery_tag=method.delivery_tag,
+                        requeue=True  # Requeue for retry
+                    )
 
             self.channel.basic_consume(
                 queue=self.channel_name, on_message_callback=callback

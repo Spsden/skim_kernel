@@ -1,0 +1,246 @@
+[project]
+name = "skim-kernel"
+version = "0.1.0"
+description = "News article aggregation, scraping, and LLM-powered summarization platform"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "skim_kernel contributors" }
+]
+maintainers = [
+    { name = "skim_kernel contributors" }
+]
+keywords = ["news", "summarization", "llm", "rss", "scraping", "openrouter"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+dependencies = [
+    # Web Scraping & Parsing
+    "scrapy>=2.12.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=5.3.0",
+    "cssselect>=1.2.0",
+    "tldextract>=5.1.0",
+
+    # Async HTTP & API
+    "aiohttp>=3.11.0",
+    "requests>=2.32.0",
+
+    # Database
+    "sqlalchemy>=2.0.44",
+    "alembic>=1.16.0",
+    "psycopg2-binary>=2.9.0",
+
+    # Message Queue
+    "pika>=1.3.2",
+
+    # Retry Logic
+    "tenacity>=9.0.0",
+
+    # Environment & Config
+    "python-dotenv>=1.2.0",
+    "pyyaml>=6.0.0",
+
+    # Utilities
+    "tqdm>=4.67.0",
+    "numpy>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=8.0.0",
+    "pytest-cov>=6.0.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-mock>=3.14.0",
+
+    # Linting & Formatting
+    "ruff>=0.8.0",
+    "black>=24.0.0",
+    "mypy>=1.12.0",
+
+    # Type Stubs
+    "types-requests>=2.32.0",
+    "types-pyyaml>=6.0.0",
+]
+
+[project.scripts]
+# CLI entry points can be added here if needed
+# skim-kernel = "main:main"
+
+[project.urls]
+Homepage = "https://github.com/wantedbear007/skim_kernel"
+Repository = "https://github.com/wantedbear007/skim_kernel"
+Documentation = "https://github.com/wantedbear007/skim_kernel/blob/main/README.md"
+Issues = "https://github.com/wantedbear007/skim_kernel/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "config",
+    "database",
+    "llm_explorer",
+    "msg_queue",
+    "rss_feeds",
+    "scraper",
+    "article_extractors",
+    "curncher",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=6.0.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.8.0",
+    "black>=24.0.0",
+    "mypy>=1.12.0",
+    "types-requests>=2.32.0",
+    "types-pyyaml>=6.0.0",
+]
+
+# =============================================================================
+# RUFF - Fast Python Linter
+# =============================================================================
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+indent-width = 4
+
+# Directories to exclude from linting
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "*.pyc",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "venv",
+    "eggs",
+    "*.egg",
+]
+
+[tool.ruff.lint]
+# Enable pycodestyle (E, W), Pyflakes (F), isort (I), and more
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # Pyflakes
+    "I",     # isort
+    "N",     # pep8-naming
+    "UP",    # pyupgrade
+    "B",     # flake8-bugbear
+    "C4",    # flake8-comprehensions
+    "SIM",   # flake8-simplify
+    "RUF",   # Ruff-specific rules
+]
+ignore = [
+    "E501",  # Line too long (handled by formatter)
+    "B008",  # Do not perform function calls in argument defaults
+    "C901",  # Too complex
+]
+
+# Allow autofix for all enabled rules
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.isort]
+known-first-party = ["skim_kernel"]
+
+# =============================================================================
+# BLACK - Code Formatter
+# =============================================================================
+[tool.black]
+line-length = 100
+target-version = ["py312", "py313"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+    | \.venv
+    | __pycache__
+    | \.pytest_cache
+    | \.mypy_cache
+    | \.ruff_cache
+    | build
+    | dist
+    | venv
+)/
+'''
+
+# =============================================================================
+# MYPY - Type Checker
+# =============================================================================
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false  # Gradually enable
+disallow_incomplete_defs = false
+check_untyped_defs = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "scrapy.*",
+    "beautifulsoup4.*",
+    "pika.*",
+    "alembic.*",
+]
+ignore_missing_imports = true
+
+# =============================================================================
+# PYTEST - Testing Framework
+# =============================================================================
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+# =============================================================================
+# COVERAGE - Code Coverage
+# =============================================================================
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]

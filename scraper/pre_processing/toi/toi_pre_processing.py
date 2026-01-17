@@ -214,13 +214,13 @@ class TOIPreprocessing(BasePreProcessing):
             return None
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    url = "https://timesofindia.indiatimes.com/sports/cricket/ipl/top-stories/glenn-maxwell-opts-out-of-ipl-2026-pens-emotional-goodbye-to-fans/articleshow/125710727.cms"
+#     url = "https://timesofindia.indiatimes.com/sports/cricket/ipl/top-stories/glenn-maxwell-opts-out-of-ipl-2026-pens-emotional-goodbye-to-fans/articleshow/125710727.cms"
 
-    # res = TOIPreprocessing(url)
+#     # res = TOIPreprocessing(url)
 
-    # with open("news.txt", "w") as file:
-    #     file.write(str(res.get_meta_data()))
+#     # with open("news.txt", "w") as file:
+#     #     file.write(str(res.get_meta_data()))
 
-    # print(res.get_meta_data())
+#     # print(res.get_meta_data())
